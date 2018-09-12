@@ -11,4 +11,4 @@ Director:
 # Permissions / Uncomment or create your own
 #Group:
 #  extensions:
-#    - RESTfulAPI_GroupExtension
+#    - RESTfulAPIGroupExtension

@@ -1,6 +1,6 @@
 {
 	"name": "colymba/silverstripe-restfulapi",
-	"type": "silverstripe-module",
+	"type": "silverstripe-vendormodule",
 	"description": "SilverStripe 3 RESTful API with a default JSON serializer.",
 	"homepage": "https://github.com/colymba/silverstripe-model-serializer",
 	"keywords": ["silverstripe", "api", "REST", "REST API", "RESTful", "json api", "model serializer", "REST server", "RESTful server"],
