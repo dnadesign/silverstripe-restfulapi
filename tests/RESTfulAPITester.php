@@ -8,7 +8,6 @@ use DNADesign\RESTfulAPI\RESTfulAPI;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
-use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;

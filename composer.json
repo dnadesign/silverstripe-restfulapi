@@ -8,12 +8,18 @@
 	"authors": [{
 		"name": "Thierry Francois",
 		"homepage": "http://colymba.com"
-  }],
-  "repositories": [{
-    "type": "vcs",
-    "url": "git@github.com:colymba/silverstripe-restfulapi.git"
-  }],
+	}],
+	"repositories": [{
+		"type": "vcs",
+		"url": "git@github.com:colymba/silverstripe-restfulapi.git"
+  	}],
 	"require": {
-    "silverstripe/framework": "~4.2"
+		"silverstripe/framework": "~4.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"DNADesign\\RESTfulAPI\\": "src/",
+			"DNADesign\\RESTfulAPI\\Tests\\": "tests/"
+		}
 	}
 }

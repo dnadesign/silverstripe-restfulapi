@@ -15,7 +15,7 @@
 	- http://doc.silverstripe.org/framework/en/topics/testing/#configuration
 -->
 <phpunit
-	bootstrap="../framework/tests/bootstrap.php"
+	bootstrap="..vendor/silverstripe/framework/tests/bootstrap.php"
 	colors="true"
 	backupGlobals="false"
 	backupStaticAttributes="false"
@@ -36,7 +36,7 @@
 	</testsuite>
 	
 	<listeners>
-		<listener class="SS_TestListener" file="../framework/dev/TestListener.php" />
+		<listener class="SS_TestListener" file="../vendor/silverstripe/framework/dev/TestListener.php" />
 	</listeners>
 	
 	<groups>
