@@ -3,6 +3,8 @@
 namespace DNADesign\RESTfulAPI\Tests;
 
 use DNADesign\RESTfulAPI\Extensions\RESTfulAPIGroupExtension;
+use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
+use DNADesign\RESTfulAPI\RESTfulAPI;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
@@ -74,16 +76,16 @@ class RESTfulAPITester extends SapphireTest
 
     public function setDefaultApiConfig()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
 
-        Config::inst()->update('RESTfulAPI', 'dependencies', array(
+        Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
             'authenticator' => '%$RESTfulAPITokenAuthenticator',
             'authority' => '%$RESTfulAPIDefaultPermissionManager',
             'queryHandler' => '%$RESTfulAPIDefaultQueryHandler',
             'serializer' => '%$RESTfulAPIBasicSerializer',
         ));
 
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => true,
             'Allow-Origin' => '*',
             'Allow-Headers' => '*',
@@ -91,7 +93,7 @@ class RESTfulAPITester extends SapphireTest
             'Max-Age' => 86400,
         ));
 
-        Config::inst()->update('RESTfulAPIDefaultQueryHandler', 'dependencies', array(
+        Config::inst()->update(RESTfulAPIDefaultQueryHandler::class, 'dependencies', array(
             'deSerializer' => '%$RESTfulAPIBasicDeSerializer',
         ));
     }
@@ -149,7 +151,7 @@ class RESTfulAPITester extends SapphireTest
             $this->generateDBEntries();
         }
 
-        Config::inst()->update('Director', 'alternate_base_url', 'http://mysite.com/');
+        Config::inst()->update(Director::class, 'alternate_base_url', 'http://mysite.com/');
     }
 
     public function setUp()

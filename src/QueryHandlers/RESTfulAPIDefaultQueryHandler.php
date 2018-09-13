@@ -189,11 +189,11 @@ class RESTfulAPIDefaultQueryHandler implements RESTfulAPIQueryHandler
     public function parseQueryParameters(array $params)
     {
         $parsedParams = array();
-        $searchFilterModifiersSeparator = Config::inst()->get('RESTfulAPIDefaultQueryHandler', 'searchFilterModifiersSeparator');
+        $searchFilterModifiersSeparator = Config::inst()->get(self::class, 'searchFilterModifiersSeparator');
 
         foreach ($params as $key__mod => $value) {
             // skip url, flush, flushtoken
-            if (in_array(strtoupper($key__mod), Config::inst()->get('RESTfulAPIDefaultQueryHandler', 'skipedQueryParameters'))) {
+            if (in_array(strtoupper($key__mod), Config::inst()->get(self::class, 'skipedQueryParameters'))) {
                 continue;
             }
 
@@ -301,7 +301,7 @@ class RESTfulAPIDefaultQueryHandler implements RESTfulAPIQueryHandler
 
             //sets default limit if none given
             $limits = $return->dataQuery()->query()->getLimit();
-            $limitConfig = Config::inst()->get('RESTfulAPIDefaultQueryHandler', 'max_records_limit');
+            $limitConfig = Config::inst()->get(self::class, 'max_records_limit');
 
             if (is_array($limits) && !array_key_exists('limit', $limits) && $limitConfig >= 0) {
                 $return = $return->limit($limitConfig);
@@ -378,10 +378,10 @@ class RESTfulAPIDefaultQueryHandler implements RESTfulAPIQueryHandler
         $model->extend('onAfterDeserialize', $payload);
 
         if ($model && $payload) {
-            $has_one = Config::inst()->get($model->ClassName, 'has_one');
-            $has_many = Config::inst()->get($model->ClassName, 'has_many');
-            $many_many = Config::inst()->get($model->ClassName, 'many_many');
-            $belongs_many_many = Config::inst()->get($model->ClassName, 'belongs_many_many');
+            $has_one = Config::inst()->get(get_class($model), 'has_one');
+            $has_many = Config::inst()->get(get_class($model), 'has_many');
+            $many_many = Config::inst()->get(get_class($model), 'many_many');
+            $belongs_many_many = Config::inst()->get(get_class($model), 'belongs_many_many');
 
             $many_many_extraFields = array();
 

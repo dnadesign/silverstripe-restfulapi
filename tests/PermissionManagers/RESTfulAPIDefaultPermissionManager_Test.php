@@ -2,6 +2,7 @@
 
 namespace DNADesign\RESTfulAPI\Tests;
 
+use DNADesign\RESTfulAPI\RESTfulAPI;
 use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
@@ -68,8 +69,8 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
      */
     public function testReadPermissions()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => false,
         ));
 
@@ -101,8 +102,8 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
      */
     public function testEditPermissions()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => false,
         ));
 
@@ -134,8 +135,8 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
      */
     public function testCreatePermissions()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => false,
         ));
 
@@ -167,8 +168,8 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
      */
     public function testDeletePermissions()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_MODEL_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => false,
         ));
 

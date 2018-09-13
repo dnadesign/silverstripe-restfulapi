@@ -3,6 +3,7 @@
 namespace DNADesign\RESTfulAPI\Tests;
 
 use DNADesign\RESTfulAPI\RESTfulAPI;
+use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
 use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
@@ -35,29 +36,29 @@ class RESTfulAPITest extends RESTfulAPITester
      */
     public function testDataObjectAPIEnaled()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
         // ----------------
         // Method Calls
 
         // Disabled by default
-        $enabled = RESTfulAPI::api_access_control('ApiTest_Author');
+        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class);
         $this->assertFalse($enabled, 'Access control should return FALSE by default');
 
         // Enabled
-        Config::inst()->update('ApiTest_Author', 'api_access', true);
+        Config::inst()->update(ApiTest_Author::class, 'api_access', true);
         $enabled = RESTfulAPI::api_access_control('ApiTest_Author');
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access is enbaled');
 
         // Method specific
-        Config::inst()->update('ApiTest_Author', 'api_access', 'GET,POST');
+        Config::inst()->update(ApiTest_Author::class, 'api_access', 'GET,POST');
 
-        $enabled = RESTfulAPI::api_access_control('ApiTest_Author');
+        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class);
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access is enbaled with default GET method');
 
-        $enabled = RESTfulAPI::api_access_control('ApiTest_Author', 'POST');
+        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class, 'POST');
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access match HTTP method');
 
-        $enabled = RESTfulAPI::api_access_control('ApiTest_Author', 'PUT');
+        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class, 'PUT');
         $this->assertFalse($enabled, 'Access control should return FALSE when api_access does not match method');
 
         // ----------------
@@ -71,7 +72,7 @@ class RESTfulAPITest extends RESTfulAPITester
     );
 
     // Access denied
-    Config::inst()->update('ApiTest_Author', 'api_access', false);
+    Config::inst()->update(ApiTest_Author::class, 'api_access', false);
     $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
     $this->assertEquals(
     $response->getStatusCode(),
@@ -79,7 +80,7 @@ class RESTfulAPITest extends RESTfulAPITester
     );
 
     // Access denied
-    Config::inst()->update('ApiTest_Author', 'api_access', 'POST');
+    Config::inst()->update(ApiTest_Author::class, 'api_access', 'POST');
     $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
     $this->assertEquals(
     $response->getStatusCode(),
@@ -98,7 +99,7 @@ class RESTfulAPITest extends RESTfulAPITester
      */
     public function testCORSDisabled()
     {
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => false,
         ));
 
@@ -117,7 +118,7 @@ class RESTfulAPITest extends RESTfulAPITester
      */
     public function testCORSAllowAll()
     {
-        $corsConfig = Config::inst()->get('RESTfulAPI', 'cors');
+        $corsConfig = Config::inst()->get(RESTfulAPI::class, 'cors');
         $requestHeaders = $this->getOPTIONSHeaders('GET', 'http://google.com');
         $response = Director::test('api/ApiTest_Book/1', null, null, 'OPTIONS', null, $requestHeaders);
         $responseHeaders = $response->getHeaders();
@@ -152,7 +153,7 @@ class RESTfulAPITest extends RESTfulAPITester
      */
     public function testCORSHTTPMethodFiltering()
     {
-        Config::inst()->update('RESTfulAPI', 'cors', array(
+        Config::inst()->update(RESTfulAPI::class, 'cors', array(
             'Enabled' => true,
             'Allow-Origin' => '*',
             'Allow-Headers' => '*',
@@ -188,18 +189,18 @@ class RESTfulAPITest extends RESTfulAPITester
 
     public function testFullBasicAPIRequest()
     {
-        Config::inst()->update('RESTfulAPI', 'authentication_policy', false);
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
-        Config::inst()->update('ApiTest_Author', 'api_access', true);
+        Config::inst()->update(RESTfulAPI::class, 'authentication_policy', false);
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
+        Config::inst()->update(ApiTest_Author::class, 'api_access', true);
 
         // Basic serializer
-        Config::inst()->update('RESTfulAPI', 'dependencies', array(
+        Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
             'authenticator' => null,
             'authority' => null,
             'queryHandler' => '%$RESTfulAPIDefaultQueryHandler',
             'serializer' => '%$RESTfulAPIBasicSerializer',
         ));
-        Config::inst()->update('RESTfulAPI', 'dependencies', array(
+        Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
             'deSerializer' => '%$RESTfulAPIBasicDeSerializer',
         ));
 
@@ -219,13 +220,13 @@ class RESTfulAPITest extends RESTfulAPITester
         );
 
         // EmberData serializer
-        Config::inst()->update('RESTfulAPI', 'dependencies', array(
+        Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
             'authenticator' => null,
             'authority' => null,
             'queryHandler' => '%$RESTfulAPIDefaultQueryHandler',
             'serializer' => '%$RESTfulAPIEmberDataSerializer',
         ));
-        Config::inst()->update('RESTfulAPI', 'dependencies', array(
+        Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
             'deSerializer' => '%$RESTfulAPIEmberDataDeSerializer',
         ));
 

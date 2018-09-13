@@ -53,7 +53,7 @@ class RESTfulAPIBasicSerializer implements RESTfulAPISerializer
      */
     public function __construct()
     {
-        $embedded_records = Config::inst()->get('RESTfulAPI', 'embedded_records');
+        $embedded_records = Config::inst()->get('DNADesign\\RESTfulAPI\\RESTfulAPI', 'embedded_records');
         if (is_array($embedded_records)) {
             $this->embeddedRecords = $embedded_records;
         } else {
@@ -138,15 +138,16 @@ class RESTfulAPIBasicSerializer implements RESTfulAPISerializer
         $formattedDataObjectMap = array();
 
         // get DataObject config
-        $db = Config::inst()->get($dataObject->ClassName, 'db');
-        $has_one = Config::inst()->get($dataObject->ClassName, 'has_one');
-        $has_many = Config::inst()->get($dataObject->ClassName, 'has_many');
-        $many_many = Config::inst()->get($dataObject->ClassName, 'many_many');
-        $belongs_many_many = Config::inst()->get($dataObject->ClassName, 'belongs_many_many');
+        $class = get_class($dataObject);
+        $db = Config::inst()->get($class, 'db');
+        $has_one = Config::inst()->get($class, 'has_one');
+        $has_many = Config::inst()->get($class, 'has_many');
+        $many_many = Config::inst()->get($class, 'many_many');
+        $belongs_many_many = Config::inst()->get($class, 'belongs_many_many');
 
         // Get a possibly defined list of "api_fields" for this DataObject. If defined, they will be the only fields
         // for this DataObject that will be returned, including related models.
-        $apiFields = (array) Config::inst()->get($dataObject->ClassName, 'api_fields');
+        $apiFields = (array) Config::inst()->get($class, 'api_fields');
 
         //$many_many_extraFields = $dataObject->many_many_extraFields();
         $many_many_extraFields = $dataObject->stat('many_many_extraFields');

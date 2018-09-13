@@ -6,8 +6,10 @@ use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Product;
 use ilverStripe\Core\Injector\Injector;
+use NADesign\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -104,14 +106,14 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testAPIDisabled()
     {
-        Config::inst()->update('ApiTest_Book', 'api_access', false);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', false);
 
         $qh = $this->getQueryHandler();
         $request = $this->getHTTPRequest('GET', 'ApiTest_Book', '1');
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
-            'RESTfulAPIError',
+            RESTfulAPIError::class,
             array($result),
             'Request for DataObject with api_access set to false should return a RESTfulAPIError'
         );
@@ -122,14 +124,14 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testFindSingleModel()
     {
-        Config::inst()->update('ApiTest_Book', 'api_access', true);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
 
         $qh = $this->getQueryHandler();
         $request = $this->getHTTPRequest('GET', 'ApiTest_Book', '1');
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
-            'ApiTest_Book',
+            ApiTest_Book::class,
             array($result),
             'Single model request should return a DataObject of class model'
         );
@@ -145,14 +147,14 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testFindMultipleModels()
     {
-        Config::inst()->update('ApiTest_Book', 'api_access', true);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
 
         $qh = $this->getQueryHandler();
         $request = $this->getHTTPRequest('GET', 'ApiTest_Book');
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
-            'DataList',
+            DataList::class,
             array($result),
             'Request for multiple models should return a DataList'
         );
@@ -169,8 +171,8 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testMaxRecordsLimit()
     {
-        Config::inst()->update('ApiTest_Book', 'api_access', true);
-        Config::inst()->update('RESTfulAPIDefaultQueryHandler', 'max_records_limit', 1);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(RESTfulAPIDefaultQueryHandler::class, 'max_records_limit', 1);
 
         $qh = $this->getQueryHandler();
         $request = $this->getHTTPRequest('GET', 'ApiTest_Book');
@@ -200,7 +202,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
         $rewRecords = ApiTest_Book::get()->toArray();
 
         $this->assertContainsOnlyInstancesOf(
-            'DataObject',
+            DataObject::class,
             array($result),
             'Create model should return a DataObject'
         );
@@ -254,11 +256,11 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
         $body = json_encode(array('Title' => $newTitle));
         $request->setBody($body);
 
-        $result = $qh->updateModel('ApiTest_Book', $firstRecord->ID, $request);
+        $result = $qh->updateModel(ApiTest_Book::class, $firstRecord->ID, $request);
         $updatedRecord = DataObject::get_by_id('ApiTest_Book', $firstRecord->ID);
 
         $this->assertContainsOnlyInstancesOf(
-            'DataObject',
+            DataObject::class,
             array($result),
             'Update model should return a DataObject'
         );
@@ -283,7 +285,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
         $request = $this->getHTTPRequest('DELETE', 'ApiTest_Book');
         $result = $qh->deleteModel('ApiTest_Book', $firstRecord->ID, $request);
 
-        $deletedRecord = DataObject::get_by_id('ApiTest_Book', $firstRecord->ID);
+        $deletedRecord = DataObject::get_by_id(ApiTest_Book::class, $firstRecord->ID);
 
         $this->assertFalse(
             $deletedRecord,
@@ -305,7 +307,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
         $updatedProduct = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
-            'DataObject',
+            DataObject::class,
             array($updatedProduct),
             'Update model should return a DataObject'
         );

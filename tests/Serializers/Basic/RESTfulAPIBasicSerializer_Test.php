@@ -2,8 +2,10 @@
 
 namespace DNADesign\RESTfulAPI\Tests;
 
+use DNADesign\RESTfulAPI\RESTfulAPI;
 use DNADesign\RESTfulAPI\Serializers\Basic\RESTfulAPIBasicSerializer;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
+use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
 use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
 use ilverStripe\Core\Injector\Injector;
@@ -61,7 +63,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
      */
     public function testSerialize()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', false);
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', false);
         $serializer = $this->getSerializer();
 
         // test single dataObject serialization
@@ -103,9 +105,9 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
      */
     public function testEmbeddedRecords()
     {
-        Config::inst()->update('RESTfulAPI', 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
-        Config::inst()->update('ApiTest_Library', 'api_access', true);
-        Config::inst()->update('RESTfulAPI', 'embedded_records', array(
+        Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
+        Config::inst()->update(ApiTest_Library::class, 'api_access', true);
+        Config::inst()->update(RESTfulAPI::class, 'embedded_records', array(
             'ApiTest_Library' => array('Books'),
         ));
 
@@ -113,7 +115,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
         $dataObject = ApiTest_Library::get()->filter(array('Name' => 'Helsinki'))->first();
 
         // api access disabled
-        Config::inst()->update('ApiTest_Book', 'api_access', false);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', false);
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
 
@@ -123,7 +125,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
         );
 
         // api access enabled
-        Config::inst()->update('ApiTest_Book', 'api_access', true);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
 
@@ -160,7 +162,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
 
         $dataObject = ApiTest_Author::get()->filter(array('Name' => 'Marie'))->first();
 
-        Config::inst()->update('ApiTest_Author', 'api_fields', array('Name'));
+        Config::inst()->update(ApiTest_Author::class, 'api_fields', array('Name'));
 
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
@@ -175,7 +177,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
             'You should be able to exclude related models by not including them in api_fields.'
         );
 
-        Config::inst()->update('ApiTest_Author', 'api_fields', array('IsMan', 'Books'));
+        Config::inst()->update(ApiTest_Author::class, 'api_fields', array('IsMan', 'Books'));
 
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);

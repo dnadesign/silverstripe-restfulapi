@@ -4,6 +4,7 @@ namespace DNADesign\RESTfulAPI\Tests;
 
 use DNADesign\RESTfulAPI\Serializers\EmberData\RESTfulAPIEmberDataSerializer;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
+use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
 use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
 use ilverStripe\Core\Injector\Injector;
@@ -79,11 +80,11 @@ class RESTfulAPIEmberDataSerializer_Test extends RESTfulAPITester
      */
     public function testSideloadedRecords()
     {
-        Config::inst()->update('RESTfulAPIEmberDataSerializer', 'sideloaded_records', array(
+        Config::inst()->update(RESTfulAPIEmberDataSerializer::class, 'sideloaded_records', array(
             'ApiTest_Library' => array('Books'),
         ));
 
-        Config::inst()->update('ApiTest_Book', 'api_access', true);
+        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
 
         $serializer = $this->getSerializer();
         $dataObject = ApiTest_Library::get()->filter(array('Name' => 'Helsinki'))->first();

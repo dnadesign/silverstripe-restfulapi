@@ -405,7 +405,7 @@ class RESTfulAPI extends Controller
      */
     private function setAnswerCORS(SS_HTTPResponse $answer)
     {
-        $cors = Config::inst()->get('RESTfulAPI', 'cors');
+        $cors = Config::inst()->get(self::class, 'cors');
 
         // skip if CORS is not enabled
         if (!$cors['Enabled']) {
@@ -473,7 +473,7 @@ class RESTfulAPI extends Controller
 
         if ($policy === self::ACL_CHECK_CONFIG_ONLY || $policy === self::ACL_CHECK_CONFIG_AND_MODEL) {
             if (!is_string($model)) {
-                $className = $model->className;
+                $className = get_class($model);
             } else {
                 $className = $model;
             }

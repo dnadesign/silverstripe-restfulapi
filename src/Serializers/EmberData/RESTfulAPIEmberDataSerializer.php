@@ -84,7 +84,7 @@ class RESTfulAPIEmberDataSerializer extends RESTfulAPIBasicSerializer
     {
         parent::__construct();
 
-        $sideloaded_records = Config::inst()->get('RESTfulAPIEmberDataSerializer', 'sideloaded_records');
+        $sideloaded_records = Config::inst()->get(self::class, 'sideloaded_records');
         if (is_array($sideloaded_records)) {
             $this->sideloadedRecords = $sideloaded_records;
         } else {

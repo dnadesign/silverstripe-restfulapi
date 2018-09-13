@@ -104,13 +104,13 @@ class RESTfulAPITokenAuthenticator implements RESTfulAPIAuthenticator
         $config = array();
         $configInstance = Config::inst();
 
-        $config['life'] = $configInstance->get('RESTfulAPITokenAuthenticator', 'tokenLife');
-        $config['header'] = $configInstance->get('RESTfulAPITokenAuthenticator', 'tokenHeader');
-        $config['queryVar'] = $configInstance->get('RESTfulAPITokenAuthenticator', 'tokenQueryVar');
-        $config['owner'] = $configInstance->get('RESTfulAPITokenAuthenticator', 'tokenOwnerClass');
-        $config['autoRefresh'] = $configInstance->get('RESTfulAPITokenAuthenticator', 'autoRefreshLifetime');
+        $config['life'] = $configInstance->get(self::class, 'tokenLife');
+        $config['header'] = $configInstance->get(self::class, 'tokenHeader');
+        $config['queryVar'] = $configInstance->get(self::class, 'tokenQueryVar');
+        $config['owner'] = $configInstance->get(self::class, 'tokenOwnerClass');
+        $config['autoRefresh'] = $configInstance->get(self::class, 'autoRefreshLifetime');
 
-        $tokenDBColumns = $configInstance->get('RESTfulAPITokenAuthExtension', 'db');
+        $tokenDBColumns = $configInstance->get(RESTfulAPITokenAuthExtension::class, 'db');
         $tokenDBColumn = array_search('Varchar(160)', $tokenDBColumns);
         $expireDBColumn = array_search('Int', $tokenDBColumns);
 
@@ -220,7 +220,7 @@ class RESTfulAPITokenAuthenticator implements RESTfulAPIAuthenticator
     public function lostPassword(HTTPRequest $request)
     {
         $email = Convert::raw2sql($request->requestVar('email'));
-        $member = DataObject::get_one('Member', "\"Email\" = '{$email}'");
+        $member = DataObject::get_one(Member::class, "\"Email\" = '{$email}'");
 
         if ($member) {
             $token = $member->generateAutologinTokenAndStoreHash();
@@ -414,7 +414,7 @@ class RESTfulAPITokenAuthenticator implements RESTfulAPIAuthenticator
                     $tokenOwner->write();
                 }
                 //all good, log Member in
-                if (is_a($tokenOwner, 'Member')) {
+                if (is_a($tokenOwner, Member::class)) {
                     # $tokenOwner->logIn();
                     # this is a login without the logging
                     $tokenOwner::session_regenerate_id();
