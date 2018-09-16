@@ -3,7 +3,7 @@
 namespace colymba\RESTfulAPI\Serializers\EmberData;
 
 use colymba\RESTfulAPI\Inflector;
-use colymba\RESTfulAPI\Serializers\RESTfulAPIBasicSerializer;
+use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPIBasicSerializer;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataList;

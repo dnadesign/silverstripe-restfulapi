@@ -4,7 +4,7 @@ namespace colymba\RESTfulAPI\Serializers\Basic;
 
 use colymba\RESTfulAPI\RESTfulAPI;
 use colymba\RESTfulAPI\RESTfulAPIError;
-use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPISerializer;
+use colymba\RESTfulAPI\Serializers\RESTfulAPISerializer;
 use SilverStripe\ORM\RelationList;
 
 /**

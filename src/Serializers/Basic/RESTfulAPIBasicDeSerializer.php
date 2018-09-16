@@ -3,7 +3,7 @@
 namespace colymba\RESTfulAPI\Serializers\Basic;
 
 use colymba\RESTfulAPI\RESTfulAPIError;
-use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPIDeSerializer;
+use colymba\RESTfulAPI\Serializers\RESTfulAPIDeSerializer;
 use SilverStripe\Core\ClassInfo;
 
 /**
