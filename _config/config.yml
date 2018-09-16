@@ -1,6 +1,8 @@
 ---
 Name: restfulapi
-After: 'framework/*','cms/*'
+After: 
+  - 'framework/*'
+  - 'cms/*'
 ---
 # ---------------------------------
 # Routing

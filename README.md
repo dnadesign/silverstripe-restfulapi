@@ -98,7 +98,9 @@ Here is what a site's `config.yml` file could look like:
 ```yaml
 ---
 Name: mysite
-After: 'framework/*','cms/*'
+After: 
+    - 'framework/*'
+    - 'cms/*'
 ---
 # API access
 Artwork:
