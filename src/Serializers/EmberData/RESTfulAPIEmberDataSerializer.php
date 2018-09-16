@@ -6,9 +6,8 @@ use DNADesign\RESTfulAPI\Inflector;
 use DNADesign\RESTfulAPI\Serializers\RESTfulAPIBasicSerializer;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObject;
-use DNADesign\RESTfulAPI\Inflector;
 use SilverStripe\ORM\DataList;
+use SilverStripe\ORM\DataObject;
 
 /**
  * EmberData RESTfulAPI Model Serializer

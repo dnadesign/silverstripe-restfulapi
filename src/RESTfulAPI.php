@@ -2,11 +2,11 @@
 
 namespace DNADesign\RESTfulAPI;
 
-use \HTTPRequest;
-Config
-RESTfulAPIError
-HTTPResponse
-
+use DNADesign\RESTfulAPI\RESTfulAPIError;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Controller;
 /**
  * SilverStripe 3 RESTful API
  *
@@ -310,7 +310,7 @@ class RESTfulAPI extends Controller
      * @param  SS_HTTPRequest   $request    HTTP request
      * @return string                       json object of the models found
      */
-    public function index(SS_HTTPRequest $request)
+    public function index(HTTPRequest $request)
     {
         //check authentication if enabled
         if ($this->authenticator) {

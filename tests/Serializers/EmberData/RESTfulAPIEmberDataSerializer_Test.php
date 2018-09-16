@@ -2,12 +2,13 @@
 
 namespace DNADesign\RESTfulAPI\Tests;
 
+use DNADesign\RESTfulAPI\Inflector;
 use DNADesign\RESTfulAPI\Serializers\EmberData\RESTfulAPIEmberDataSerializer;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
 use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
 use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
-use ilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Injector\Injector;
 
 /**
  * EmberData Serializer Test suite

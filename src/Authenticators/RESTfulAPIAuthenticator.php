@@ -20,7 +20,7 @@ interface RESTfulAPIAuthenticator
     /**
      * Checks if a request to the API is authenticated
      *
-     * @param  SS_HTTPRequest          $request    HTTP API request
+     * @param  HTTPRequest          $request    HTTP API request
      * @return true|RESTfulAPIError               True if token is valid OR RESTfulAPIError with details
      */
     public function authenticate(HTTPRequest $request);
@@ -28,7 +28,7 @@ interface RESTfulAPIAuthenticator
     /**
      * Returns the DataObject related to the authenticated request
      *
-     * @param  SS_HTTPRequest          $request    HTTP API request
+     * @param  HTTPRequest          $request    HTTP API request
      * @return null|DataObject                     null if failed or the DataObject related to the request
      */
     public function getOwner(HTTPRequest $request);

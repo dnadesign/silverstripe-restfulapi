@@ -3,13 +3,12 @@
 namespace DNADesign\RESTfulAPI\QueryHandlers;
 
 use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIQueryHandler;
-use DNADesign\RESTfulAPI\RESTfulAPIError;
 use DNADesign\RESTfulAPI\RESTfulAPI;
+use DNADesign\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
-use SilverStripe\ORM\DataObject;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\ValidationException;
 
 /**
