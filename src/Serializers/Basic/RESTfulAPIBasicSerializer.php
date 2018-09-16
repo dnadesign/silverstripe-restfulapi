@@ -1,10 +1,10 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Serializers\Basic;
+namespace colymba\RESTfulAPI\Serializers\Basic;
 
-use DNADesign\RESTfulAPI\RESTfulAPI;
-use DNADesign\RESTfulAPI\RESTfulAPIError;
-use DNADesign\RESTfulAPI\Serializers\Basic\RESTfulAPISerializer;
+use colymba\RESTfulAPI\RESTfulAPI;
+use colymba\RESTfulAPI\RESTfulAPIError;
+use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPISerializer;
 use SilverStripe\ORM\RelationList;
 
 /**
@@ -53,7 +53,7 @@ class RESTfulAPIBasicSerializer implements RESTfulAPISerializer
      */
     public function __construct()
     {
-        $embedded_records = Config::inst()->get('DNADesign\\RESTfulAPI\\RESTfulAPI', 'embedded_records');
+        $embedded_records = Config::inst()->get('colymba\\RESTfulAPI\\RESTfulAPI', 'embedded_records');
         if (is_array($embedded_records)) {
             $this->embeddedRecords = $embedded_records;
         } else {

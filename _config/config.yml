@@ -6,9 +6,9 @@ After: 'framework/*','cms/*'
 # Routing
 SilverStripe\Control\Director:
   rules:
-    'api': 'DNADesign\RESTfulAPI\RESTfulAPI'
+    'api': 'colymba\RESTfulAPI\RESTfulAPI'
 # ---------------------------------
 # Permissions / Uncomment or create your own
 #SilverStripe\Security\Group:
 #  extensions:
-#    - DNADesign\RESTfulAPI\Extensions\RESTfulAPIGroupExtension
+#    - colymba\RESTfulAPI\Extensions\RESTfulAPIGroupExtension

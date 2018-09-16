@@ -1,8 +1,8 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Authenticators;
+namespace colymba\RESTfulAPI\Authenticators;
 
-use DNADesign\RESTfulAPI\Authenticators\RESTfulAPIAuthenticator;
+use colymba\RESTfulAPI\Authenticators\RESTfulAPIAuthenticator;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config;

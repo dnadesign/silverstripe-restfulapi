@@ -1,8 +1,8 @@
 <?php
 
-namespace DNADesign\RESTfulAPI;
+namespace colymba\RESTfulAPI;
 
-use DNADesign\RESTfulAPI\RESTfulAPIError;
+use colymba\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Config\Config;

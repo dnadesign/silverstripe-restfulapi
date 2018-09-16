@@ -1,9 +1,9 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Serializers\EmberData;
+namespace colymba\RESTfulAPI\Serializers\EmberData;
 
-use DNADesign\RESTfulAPI\Inflector;
-use DNADesign\RESTfulAPI\Serializers\RESTfulAPIBasicSerializer;
+use colymba\RESTfulAPI\Inflector;
+use colymba\RESTfulAPI\Serializers\RESTfulAPIBasicSerializer;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataList;

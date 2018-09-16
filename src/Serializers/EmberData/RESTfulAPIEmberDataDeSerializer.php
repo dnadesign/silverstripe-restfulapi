@@ -1,10 +1,10 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Serializers\EmberData;
+namespace colymba\RESTfulAPI\Serializers\EmberData;
 
-use DNADesign\RESTfulAPI\Inflector;
-use DNADesign\RESTfulAPI\RESTfulAPIError;
-use DNADesign\RESTfulAPI\Serializers\RESTfulAPIDeSerializer;
+use colymba\RESTfulAPI\Inflector;
+use colymba\RESTfulAPI\RESTfulAPIError;
+use colymba\RESTfulAPI\Serializers\RESTfulAPIDeSerializer;
 use SilverStripe\Core\ClassInfo;
 
 /**

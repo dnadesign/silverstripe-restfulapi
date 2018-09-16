@@ -1,10 +1,10 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Product;
+use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
+use colymba\RESTfulAPI\Tests\ApiTest_Book;
+use colymba\RESTfulAPI\Tests\ApiTest_Product;
 use ilverStripe\Core\Injector\Injector;
 use NADesign\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;

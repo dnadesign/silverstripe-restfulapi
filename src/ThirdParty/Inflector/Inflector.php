@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI;
+namespace colymba\RESTfulAPI;
 
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)

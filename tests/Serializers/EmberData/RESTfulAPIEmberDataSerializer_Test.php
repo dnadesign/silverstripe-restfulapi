@@ -1,13 +1,13 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\Inflector;
-use DNADesign\RESTfulAPI\Serializers\EmberData\RESTfulAPIEmberDataSerializer;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
-use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
+use colymba\RESTfulAPI\Inflector;
+use colymba\RESTfulAPI\Serializers\EmberData\RESTfulAPIEmberDataSerializer;
+use colymba\RESTfulAPI\Tests\ApiTest_Author;
+use colymba\RESTfulAPI\Tests\ApiTest_Book;
+use colymba\RESTfulAPI\Tests\ApiTest_Library;
+use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Core\Injector\Injector;
 
 /**

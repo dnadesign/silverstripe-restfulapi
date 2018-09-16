@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\PermissionManagers;
+namespace colymba\RESTfulAPI\PermissionManagers;
 
 /**
  * Basic required structure for any RESTfulAPI Permission Manager

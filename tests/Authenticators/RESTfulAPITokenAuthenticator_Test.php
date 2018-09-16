@@ -1,9 +1,9 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\Authenticators\RESTfulAPITokenAuthenticator;
-use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
+use colymba\RESTfulAPI\Authenticators\RESTfulAPITokenAuthenticator;
+use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\Member;

@@ -1,8 +1,8 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\PermissionManagers;
+namespace colymba\RESTfulAPI\PermissionManagers;
 
-use DNADesign\RESTfulAPI\PermissionManagers\RESTfulAPIPermissionManager;
+use colymba\RESTfulAPI\PermissionManagers\RESTfulAPIPermissionManager;
 
 /**
  * Default RESTfulAPI Permission Manager

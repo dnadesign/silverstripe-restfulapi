@@ -1,9 +1,9 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\RESTfulAPI;
-use DNADesign\RESTfulAPI\Tests\RESTfulAPITester;
+use colymba\RESTfulAPI\RESTfulAPI;
+use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Security\Member;

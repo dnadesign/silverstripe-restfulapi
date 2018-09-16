@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\QueryHandlers;
+namespace colymba\RESTfulAPI\QueryHandlers;
 
 use SilverStripe\Control\HTTPRequest;
 

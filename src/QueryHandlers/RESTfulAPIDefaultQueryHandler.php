@@ -1,10 +1,10 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\QueryHandlers;
+namespace colymba\RESTfulAPI\QueryHandlers;
 
-use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIQueryHandler;
-use DNADesign\RESTfulAPI\RESTfulAPI;
-use DNADesign\RESTfulAPI\RESTfulAPIError;
+use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIQueryHandler;
+use colymba\RESTfulAPI\RESTfulAPI;
+use colymba\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;

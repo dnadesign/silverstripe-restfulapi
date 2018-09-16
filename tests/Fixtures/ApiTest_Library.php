@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;

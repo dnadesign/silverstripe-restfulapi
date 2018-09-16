@@ -1,8 +1,8 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIBasicDeSerializer;
+use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIBasicDeSerializer;
 use ilverStripe\Core\Injector\Injector;
 
 /**

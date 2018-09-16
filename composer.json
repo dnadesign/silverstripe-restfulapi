@@ -18,8 +18,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"DNADesign\\RESTfulAPI\\": "src/",
-			"DNADesign\\RESTfulAPI\\Tests\\": "tests/"
+			"colymba\\RESTfulAPI\\": "src/",
+			"colymba\\RESTfulAPI\\Tests\\": "tests/"
 		}
 	}
 }

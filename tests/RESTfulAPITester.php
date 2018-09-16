@@ -1,13 +1,13 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests;
 
-use DNADesign\RESTfulAPI\Extensions\RESTfulAPIGroupExtension;
-use DNADesign\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
-use DNADesign\RESTfulAPI\RESTfulAPI;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Author;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Book;
-use DNADesign\RESTfulAPI\Tests\ApiTest_Library;
+use colymba\RESTfulAPI\Extensions\RESTfulAPIGroupExtension;
+use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
+use colymba\RESTfulAPI\RESTfulAPI;
+use colymba\RESTfulAPI\Tests\ApiTest_Author;
+use colymba\RESTfulAPI\Tests\ApiTest_Book;
+use colymba\RESTfulAPI\Tests\ApiTest_Library;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;

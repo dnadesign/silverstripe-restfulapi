@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Extensions;
+namespace colymba\RESTfulAPI\Extensions;
 
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\DataObject;

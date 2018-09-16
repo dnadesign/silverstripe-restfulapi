@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI\Serializers;
+namespace colymba\RESTfulAPI\Serializers;
 
 /**
  * Defines requirements for RESTfulAPI Serializer

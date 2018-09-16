@@ -1,6 +1,6 @@
 <?php
 
-namespace DNADesign\RESTfulAPI;
+namespace colymba\RESTfulAPI;
 
 /**
  * Stores an API errors. And a library of static methods.
