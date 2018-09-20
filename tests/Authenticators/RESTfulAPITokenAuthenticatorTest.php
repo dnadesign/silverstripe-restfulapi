@@ -1,12 +1,14 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Authenticators;
 
 use colymba\RESTfulAPI\Authenticators\RESTfulAPITokenAuthenticator;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\Member;
+
+
 
 /**
  * TokenAuthenticator Test suite
@@ -21,7 +23,7 @@ use SilverStripe\Security\Member;
  */
 class RESTfulAPITokenAuthenticatorTest extends RESTfulAPITester
 {
-    protected $requiredExtensions = array(
+    protected static $required_extensions = array(
         'Member' => array('RESTfulAPITokenAuthExtension'),
     );
 
@@ -160,9 +162,9 @@ class RESTfulAPITokenAuthenticatorTest extends RESTfulAPITester
         $auth->resetToken($member->ID);
         $token = $auth->getToken($member->ID);
 
-        $request = new SS_HTTPRequest(
+        $request = new HTTPRequest(
             'GET',
-            'api/ApiTest_Book/1'
+            'api/ApiTestBook/1'
         );
         $request->addHeader('X-Silverstripe-Apitoken', $token);
 
@@ -187,7 +189,7 @@ class RESTfulAPITokenAuthenticatorTest extends RESTfulAPITester
         $auth = $this->getAuthenticator();
         $request = new HTTPRequest(
             'GET',
-            'api/ApiTest_Book/1'
+            'api/ApiTestBook/1'
         );
 
         $auth->resetToken($member->ID);

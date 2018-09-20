@@ -1,12 +1,17 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\API;
 
 use colymba\RESTfulAPI\RESTfulAPI;
-use colymba\RESTfulAPI\Tests\ApiTest_Author;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+
+
+
 
 /**
  * RESTfulAPI Test suite
@@ -21,10 +26,10 @@ use SilverStripe\Core\Config\Config;
  */
 class RESTfulAPITest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Author',
-        'ApiTest_Book',
-        'ApiTest_Library',
+    protected static $extra_dataobjects = array(
+        ApiTestAuthor::class,
+        ApiTestBook::class,
+        ApiTestLibrary::class,
     );
 
     /* **********************************************************
@@ -41,47 +46,47 @@ class RESTfulAPITest extends RESTfulAPITester
         // Method Calls
 
         // Disabled by default
-        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class);
+        $enabled = RESTfulAPI::api_access_control(ApiTestAuthor::class);
         $this->assertFalse($enabled, 'Access control should return FALSE by default');
 
         // Enabled
-        Config::inst()->update(ApiTest_Author::class, 'api_access', true);
-        $enabled = RESTfulAPI::api_access_control('ApiTest_Author');
+        Config::inst()->update(ApiTestAuthor::class, 'api_access', true);
+        $enabled = RESTfulAPI::api_access_control(ApiTestAuthor::class);
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access is enbaled');
 
         // Method specific
-        Config::inst()->update(ApiTest_Author::class, 'api_access', 'GET,POST');
+        Config::inst()->update(ApiTestAuthor::class, 'api_access', 'GET,POST');
 
-        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class);
+        $enabled = RESTfulAPI::api_access_control(ApiTestAuthor::class);
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access is enbaled with default GET method');
 
-        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class, 'POST');
+        $enabled = RESTfulAPI::api_access_control(ApiTestAuthor::class, 'POST');
         $this->assertTrue($enabled, 'Access control should return TRUE when api_access match HTTP method');
 
-        $enabled = RESTfulAPI::api_access_control(ApiTest_Author::class, 'PUT');
+        $enabled = RESTfulAPI::api_access_control(ApiTestAuthor::class, 'PUT');
         $this->assertFalse($enabled, 'Access control should return FALSE when api_access does not match method');
 
         // ----------------
         // API Calls
         /*
     // Access authorised
-    $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
+    $response = Director::test('api/ApiTestAuthor/1', null, null, 'GET');
     $this->assertEquals(
     $response->getStatusCode(),
     200
     );
 
     // Access denied
-    Config::inst()->update(ApiTest_Author::class, 'api_access', false);
-    $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
+    Config::inst()->update(ApiTestAuthor::class, 'api_access', false);
+    $response = Director::test('api/ApiTestAuthor/1', null, null, 'GET');
     $this->assertEquals(
     $response->getStatusCode(),
     403
     );
 
     // Access denied
-    Config::inst()->update(ApiTest_Author::class, 'api_access', 'POST');
-    $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
+    Config::inst()->update(ApiTestAuthor::class, 'api_access', 'POST');
+    $response = Director::test('api/ApiTestAuthor/1', null, null, 'GET');
     $this->assertEquals(
     $response->getStatusCode(),
     403
@@ -104,7 +109,7 @@ class RESTfulAPITest extends RESTfulAPITester
         ));
 
         $requestHeaders = $this->getOPTIONSHeaders();
-        $response = Director::test('api/ApiTest_Book/1', null, null, 'OPTIONS', null, $requestHeaders);
+        $response = Director::test('api/ApiTestBook/1', null, null, 'OPTIONS', null, $requestHeaders);
         $headers = $response->getHeaders();
 
         $this->assertFalse(array_key_exists('Access-Control-Allow-Origin', $headers), 'CORS ORIGIN header should not be present');
@@ -120,7 +125,7 @@ class RESTfulAPITest extends RESTfulAPITester
     {
         $corsConfig = Config::inst()->get(RESTfulAPI::class, 'cors');
         $requestHeaders = $this->getOPTIONSHeaders('GET', 'http://google.com');
-        $response = Director::test('api/ApiTest_Book/1', null, null, 'OPTIONS', null, $requestHeaders);
+        $response = Director::test('api/ApiTestBook/1', null, null, 'OPTIONS', null, $requestHeaders);
         $responseHeaders = $response->getHeaders();
 
         $this->assertEquals(
@@ -163,7 +168,7 @@ class RESTfulAPITest extends RESTfulAPITester
 
         // Seding GET request, GET should be allowed
         $requestHeaders = $this->getRequestHeaders();
-        $response = Director::test('api/ApiTest_Book/1', null, null, 'GET', null, $requestHeaders);
+        $response = Director::test('api/ApiTestBook/1', null, null, 'GET', null, $requestHeaders);
         $responseHeaders = $response->getHeaders();
 
         $this->assertEquals(
@@ -173,7 +178,7 @@ class RESTfulAPITest extends RESTfulAPITester
         );
 
         // Seding POST request, only GET should be allowed
-        $response = Director::test('api/ApiTest_Book/1', null, null, 'POST', null, $requestHeaders);
+        $response = Director::test('api/ApiTestBook/1', null, null, 'POST', null, $requestHeaders);
         $responseHeaders = $response->getHeaders();
 
         $this->assertEquals(
@@ -191,7 +196,7 @@ class RESTfulAPITest extends RESTfulAPITester
     {
         Config::inst()->update(RESTfulAPI::class, 'authentication_policy', false);
         Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
-        Config::inst()->update(ApiTest_Author::class, 'api_access', true);
+        Config::inst()->update(ApiTestAuthor::class, 'api_access', true);
 
         // Basic serializer
         Config::inst()->update(RESTfulAPI::class, 'dependencies', array(
@@ -204,7 +209,7 @@ class RESTfulAPITest extends RESTfulAPITester
             'deSerializer' => '%$RESTfulAPIBasicDeSerializer',
         ));
 
-        $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
+        $response = Director::test('api/ApiTestAuthor/1', null, null, 'GET');
 
         $this->assertEquals(
             200,
@@ -230,7 +235,7 @@ class RESTfulAPITest extends RESTfulAPITester
             'deSerializer' => '%$RESTfulAPIEmberDataDeSerializer',
         ));
 
-        $response = Director::test('api/ApiTest_Author/1', null, null, 'GET');
+        $response = Director::test('api/ApiTestAuthor/1', null, null, 'GET');
 
         $this->assertEquals(
             200,

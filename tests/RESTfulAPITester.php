@@ -5,12 +5,14 @@ namespace colymba\RESTfulAPI\Tests;
 use colymba\RESTfulAPI\Extensions\RESTfulAPIGroupExtension;
 use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
 use colymba\RESTfulAPI\RESTfulAPI;
-use colymba\RESTfulAPI\Tests\ApiTest_Author;
-use colymba\RESTfulAPI\Tests\ApiTest_Book;
-use colymba\RESTfulAPI\Tests\ApiTest_Library;
+use colymba\RESTfulAPI\Tests\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\ApiTestBook;
+use colymba\RESTfulAPI\Tests\ApiTestLibrary;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
+
+
 
 /**
  * RESTfulAPI Test suite common methods and tools
@@ -27,28 +29,28 @@ class RESTfulAPITester extends SapphireTest
 {
     public function generateDBEntries()
     {
-        $peter = ApiTest_Author::create(array(
+        $peter = ApiTestAuthor::create(array(
             'Name' => 'Peter',
             'IsMan' => true,
         ));
-        $marie = ApiTest_Author::create(array(
+        $marie = ApiTestAuthor::create(array(
             'Name' => 'Marie',
             'IsMan' => false,
         ));
 
-        $bible = ApiTest_Book::create(array(
+        $bible = ApiTestBook::create(array(
             'Title' => 'The Bible',
             'Pages' => 2000,
         ));
-        $kamasutra = ApiTest_Book::create(array(
+        $kamasutra = ApiTestBook::create(array(
             'Title' => 'Kama Sutra',
             'Pages' => 1000,
         ));
 
-        $helsinki = ApiTest_Library::create(array(
+        $helsinki = ApiTestLibrary::create(array(
             'Name' => 'Helsinki',
         ));
-        $paris = ApiTest_Library::create(array(
+        $paris = ApiTestLibrary::create(array(
             'Name' => 'Paris',
         ));
 
@@ -146,7 +148,7 @@ class RESTfulAPITester extends SapphireTest
     {
         parent::setUpOnce();
 
-        if ($this->extraDataObjects) {
+        if ($this->extra_dataobjects) {
             $this->generateDBEntries();
         }
 

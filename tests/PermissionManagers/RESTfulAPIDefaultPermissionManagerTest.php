@@ -1,12 +1,16 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\PermissionManagers;
 
 use colymba\RESTfulAPI\RESTfulAPI;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Security\Member;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+
+
+
 
 /**
  * Default Permission Manager Test suite
@@ -19,10 +23,10 @@ use SilverStripe\Security\Member;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
+class RESTfulAPIDefaultPermissionManagerTest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Library',
+    protected static $extra_dataobjects = array(
+        ApiTestLibrary::class,
     );
 
     public function setUpOnce()
@@ -77,7 +81,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // GET with permission = OK
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getAdminToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'GET', null, $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'GET', null, $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -88,7 +92,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // GET with NO Permission = BAD
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getStrangerToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'GET', null, $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'GET', null, $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -110,7 +114,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // PUT with permission = OK
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getAdminToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'PUT', '{"Name":"Api"}', $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'PUT', '{"Name":"Api"}', $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -121,7 +125,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // PUT with NO Permission = BAD
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getStrangerToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'PUT', '{"Name":"Api"}', $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'PUT', '{"Name":"Api"}', $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -143,7 +147,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // POST with permission = OK
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getAdminToken();
-        $response = Director::test('api/ApiTest_Library', null, null, 'POST', '{"Name":"Api"}', $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary', null, null, 'POST', '{"Name":"Api"}', $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -154,7 +158,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // POST with NO Permission = BAD
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getStrangerToken();
-        $response = Director::test('api/ApiTest_Library', null, null, 'POST', '{"Name":"Api"}', $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary', null, null, 'POST', '{"Name":"Api"}', $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -176,7 +180,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // DELETE with permission = OK
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getAdminToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'DELETE', null, $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'DELETE', null, $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),
@@ -187,7 +191,7 @@ class RESTfulAPIDefaultPermissionManager_Test extends RESTfulAPITester
         // DELETE with NO Permission = BAD
         $requestHeaders = $this->getRequestHeaders();
         $requestHeaders['X-Silverstripe-Apitoken'] = $this->getStrangerToken();
-        $response = Director::test('api/ApiTest_Library/1', null, null, 'DELETE', null, $requestHeaders);
+        $response = Director::test('api/ApiTestLibrary/1', null, null, 'DELETE', null, $requestHeaders);
 
         $this->assertEquals(
             $response->getStatusCode(),

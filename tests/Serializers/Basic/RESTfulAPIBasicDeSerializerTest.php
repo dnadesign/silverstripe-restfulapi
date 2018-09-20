@@ -1,13 +1,18 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Serializers\Basic;
 
-use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPIBasicDeSerializer;
+use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIBasicDeSerializer;
+use SilverStripe\Core\Injector\Injector;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
-use ilverStripe\Core\Injector\Injector;
+
+
 
 /**
- * EmberData DeSerializer Test suite
+ * Basic DeSerializer Test suite
  *
  * @author  Thierry Francois @colymba thierry@colymba.com
  * @copyright Copyright (c) 2013, Thierry Francois
@@ -17,12 +22,12 @@ use ilverStripe\Core\Injector\Injector;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class RESTfulAPIEmberDataDeSerializer_Test extends RESTfulAPITester
+class RESTfulAPIBasicDeSerializerTest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Author',
-        'ApiTest_Book',
-        'ApiTest_Library',
+    protected static $extra_dataobjects = array(
+        ApiTestAuthor::class,
+        ApiTestBook::class,
+        ApiTestLibrary::class,
     );
 
     protected function getDeSerializer()
@@ -77,7 +82,7 @@ class RESTfulAPIEmberDataDeSerializer_Test extends RESTfulAPITester
         );
 
         $this->assertEquals(
-            'ApiTest_Author',
+            ApiTestAuthor::class,
             $deserializer->unformatName($class),
             "Basic DeSerialize should return ucfirst class name"
         );

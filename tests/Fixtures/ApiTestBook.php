@@ -1,9 +1,14 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Fixtures;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\ValidationResult;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+
+
+
 
 /**
  * RESTfulAPI Test suite DataObjects
@@ -17,7 +22,7 @@ use SilverStripe\ORM\ValidationResult;
  * @subpackage Tests
  */
 
-class ApiTest_Book extends DataObject
+class ApiTestBook extends DataObject
 {
     private static $db = array(
         'Title' => 'Varchar(255)',
@@ -25,11 +30,11 @@ class ApiTest_Book extends DataObject
     );
 
     private static $has_one = array(
-        'Author' => 'ApiTest_Author',
+        'Author' => ApiTestAuthor::class,
     );
 
     private static $belongs_many_many = array(
-        'Libraries' => 'ApiTest_Library',
+        'Libraries' => ApiTestLibrary::class,
     );
 
     public function validate()

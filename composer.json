@@ -16,10 +16,13 @@
 	"require": {
 		"silverstripe/framework": "~4.2"
 	},
+    "require-dev": {
+        "phpunit/phpunit": "~5.7@stable"
+    },
 	"autoload": {
 		"psr-4": {
 			"colymba\\RESTfulAPI\\": "src/",
-			"colymba\\RESTfulAPI\\Tests\\": "tests/"
+            "colymba\\RESTfulAPI\\Tests\\": "tests/"
 		}
 	}
 }

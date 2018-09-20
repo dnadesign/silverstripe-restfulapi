@@ -1,8 +1,12 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Fixtures;
 
 use SilverStripe\ORM\DataObject;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+
+
+
 
 /**
  * RESTfulAPI Test suite DataObjects
@@ -16,7 +20,7 @@ use SilverStripe\ORM\DataObject;
  * @subpackage Tests
  */
 
-class ApiTest_Author extends DataObject
+class ApiTestAuthor extends DataObject
 {
     private static $db = array(
         'Name' => 'Varchar(255)',
@@ -24,6 +28,6 @@ class ApiTest_Author extends DataObject
     );
 
     private static $has_many = array(
-        'Books' => 'ApiTest_Book',
+        'Books' => ApiTestBook::class,
     );
 }

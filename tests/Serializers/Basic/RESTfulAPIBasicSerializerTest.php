@@ -1,15 +1,18 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Serializers\Basic;
 
 use colymba\RESTfulAPI\RESTfulAPI;
 use colymba\RESTfulAPI\Serializers\Basic\RESTfulAPIBasicSerializer;
-use colymba\RESTfulAPI\Tests\ApiTest_Author;
-use colymba\RESTfulAPI\Tests\ApiTest_Book;
-use colymba\RESTfulAPI\Tests\ApiTest_Library;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
-use ilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Config\Config;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+
+
+
 
 /**
  * Basic Serializer Test suite
@@ -22,12 +25,12 @@ use SilverStripe\Core\Config\Config;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
+class RESTfulAPIBasicSerializerTest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Author',
-        'ApiTest_Book',
-        'ApiTest_Library',
+    protected static $extra_dataobjects = array(
+        ApiTestAuthor::class,
+        ApiTestBook::class,
+        ApiTestLibrary::class,
     );
 
     protected function getSerializer()
@@ -67,7 +70,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
         $serializer = $this->getSerializer();
 
         // test single dataObject serialization
-        $dataObject = ApiTest_Author::get()->filter(array('Name' => 'Peter'))->first();
+        $dataObject = ApiTestAuthor::get()->filter(array('Name' => 'Peter'))->first();
         $jsonString = $serializer->serialize($dataObject);
         $jsonObject = json_decode($jsonString);
 
@@ -84,7 +87,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
         );
 
         // test datalist serialization
-        $dataList = ApiTest_Author::get();
+        $dataList = ApiTestAuthor::get();
         $jsonString = $serializer->serialize($dataList);
         $jsonArray = json_decode($jsonString);
 
@@ -106,16 +109,16 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
     public function testEmbeddedRecords()
     {
         Config::inst()->update(RESTfulAPI::class, 'access_control_policy', 'ACL_CHECK_CONFIG_ONLY');
-        Config::inst()->update(ApiTest_Library::class, 'api_access', true);
+        Config::inst()->update(ApiTestLibrary::class, 'api_access', true);
         Config::inst()->update(RESTfulAPI::class, 'embedded_records', array(
-            'ApiTest_Library' => array('Books'),
+            'ApiTestLibrary' => array('Books'),
         ));
 
         $serializer = $this->getSerializer();
-        $dataObject = ApiTest_Library::get()->filter(array('Name' => 'Helsinki'))->first();
+        $dataObject = ApiTestLibrary::get()->filter(array('Name' => 'Helsinki'))->first();
 
         // api access disabled
-        Config::inst()->update(ApiTest_Book::class, 'api_access', false);
+        Config::inst()->update(ApiTestBook::class, 'api_access', false);
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
 
@@ -125,7 +128,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
         );
 
         // api access enabled
-        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(ApiTestBook::class, 'api_access', true);
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
 
@@ -156,13 +159,13 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
      */
     public function testReturnDefinedApiFieldsOnly()
     {
-        Config::inst()->update('ApiTest_Author', 'api_access', true);
+        Config::inst()->update(ApiTestAuthor::class, 'api_access', true);
 
         $serializer = $this->getSerializer();
 
-        $dataObject = ApiTest_Author::get()->filter(array('Name' => 'Marie'))->first();
+        $dataObject = ApiTestAuthor::get()->filter(array('Name' => 'Marie'))->first();
 
-        Config::inst()->update(ApiTest_Author::class, 'api_fields', array('Name'));
+        Config::inst()->update(ApiTestAuthor::class, 'api_fields', array('Name'));
 
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);
@@ -177,7 +180,7 @@ class RESTfulAPIBasicSerializer_Test extends RESTfulAPITester
             'You should be able to exclude related models by not including them in api_fields.'
         );
 
-        Config::inst()->update(ApiTest_Author::class, 'api_fields', array('IsMan', 'Books'));
+        Config::inst()->update(ApiTestAuthor::class, 'api_fields', array('IsMan', 'Books'));
 
         $result = $serializer->serialize($dataObject);
         $result = json_decode($result);

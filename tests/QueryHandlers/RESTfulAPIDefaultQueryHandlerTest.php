@@ -1,16 +1,21 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\QueryHandlers;
 
 use colymba\RESTfulAPI\QueryHandlers\RESTfulAPIDefaultQueryHandler;
-use colymba\RESTfulAPI\Tests\ApiTest_Book;
-use colymba\RESTfulAPI\Tests\ApiTest_Product;
-use ilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Injector\Injector;
 use NADesign\RESTfulAPI\RESTfulAPIError;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestProduct;
+use colymba\RESTfulAPI\Tests\RESTfulAPITester;
+
+
 
 /**
  * Default Query Handler Test suite
@@ -23,18 +28,18 @@ use SilverStripe\ORM\DataObject;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
+class RESTfulAPIDefaultQueryHandlerTest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Author',
-        'ApiTest_Book',
-        'ApiTest_Library',
-        'ApiTest_Product',
+    protected static $extra_dataobjects = array(
+        ApiTestAuthor::class,
+        ApiTestBook::class,
+        ApiTestLibrary::class,
+        ApiTestProduct::class,
     );
 
     protected $url_pattern = 'api/$ClassName/$ID';
 
-    protected function getHTTPRequest($method = 'GET', $class = 'ApiTest_Book', $id = '', $params = array())
+    protected function getHTTPRequest($method = 'GET', $class = ApiTestBook::class, $id = '', $params = array())
     {
         $request = new HTTPRequest(
             $method,
@@ -63,7 +68,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
     {
         parent::generateDBEntries();
 
-        $product = ApiTest_Product::create(array(
+        $product = ApiTestProduct::create(array(
             'Title' => 'Sold out product',
             'Soldout' => true,
         ));
@@ -80,7 +85,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
     public function testQueryParametersParsing()
     {
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('GET', 'ApiTest_Book', '1', array('Title__StartsWith' => 'K'));
+        $request = $this->getHTTPRequest('GET', ApiTestBook::class, '1', array('Title__StartsWith' => 'K'));
         $params = $qh->parseQueryParameters($request->getVars());
         $params = array_shift($params);
 
@@ -106,10 +111,10 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testAPIDisabled()
     {
-        Config::inst()->update(ApiTest_Book::class, 'api_access', false);
+        Config::inst()->update(ApiTestBook::class, 'api_access', false);
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('GET', 'ApiTest_Book', '1');
+        $request = $this->getHTTPRequest('GET', ApiTestBook::class, '1');
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
@@ -124,14 +129,14 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testFindSingleModel()
     {
-        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(ApiTestBook::class, 'api_access', true);
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('GET', 'ApiTest_Book', '1');
+        $request = $this->getHTTPRequest('GET', ApiTestBook::class, '1');
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
-            ApiTest_Book::class,
+            ApiTestBook::class,
             array($result),
             'Single model request should return a DataObject of class model'
         );
@@ -147,10 +152,10 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testFindMultipleModels()
     {
-        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(ApiTestBook::class, 'api_access', true);
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('GET', 'ApiTest_Book');
+        $request = $this->getHTTPRequest('GET', ApiTestBook::class);
         $result = $qh->handleQuery($request);
 
         $this->assertContainsOnlyInstancesOf(
@@ -171,11 +176,11 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testMaxRecordsLimit()
     {
-        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(ApiTestBook::class, 'api_access', true);
         Config::inst()->update(RESTfulAPIDefaultQueryHandler::class, 'max_records_limit', 1);
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('GET', 'ApiTest_Book');
+        $request = $this->getHTTPRequest('GET', ApiTestBook::class);
         $result = $qh->handleQuery($request);
 
         $this->assertCount(
@@ -190,16 +195,16 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testCreateModel()
     {
-        $existingRecords = ApiTest_Book::get()->toArray();
+        $existingRecords = ApiTestBook::get()->toArray();
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('POST', 'ApiTest_Book');
+        $request = $this->getHTTPRequest('POST', ApiTestBook::class);
 
         $body = json_encode(array('Title' => 'New Test Book'));
         $request->setBody($body);
 
-        $result = $qh->createModel('ApiTest_Book', $request);
-        $rewRecords = ApiTest_Book::get()->toArray();
+        $result = $qh->createModel(ApiTestBook::class, $request);
+        $rewRecords = ApiTestBook::get()->toArray();
 
         $this->assertContainsOnlyInstancesOf(
             DataObject::class,
@@ -228,12 +233,12 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
     public function testModelValidation()
     {
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('POST', 'ApiTest_Book');
+        $request = $this->getHTTPRequest('POST', ApiTestBook::class);
 
         $body = json_encode(array('Title' => 'New Test Book', 'Pages' => 101));
         $request->setBody($body);
 
-        $result = $qh->createModel('ApiTest_Book', $request);
+        $result = $qh->createModel(ApiTestBook::class, $request);
 
         $this->assertEquals(
             'Too many pages',
@@ -247,17 +252,17 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testUpdateModel()
     {
-        $firstRecord = ApiTest_Book::get()->first();
+        $firstRecord = ApiTestBook::get()->first();
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('PUT', 'ApiTest_Book');
+        $request = $this->getHTTPRequest('PUT', ApiTestBook::class);
 
         $newTitle = $firstRecord->Title . ' UPDATED';
         $body = json_encode(array('Title' => $newTitle));
         $request->setBody($body);
 
-        $result = $qh->updateModel(ApiTest_Book::class, $firstRecord->ID, $request);
-        $updatedRecord = DataObject::get_by_id('ApiTest_Book', $firstRecord->ID);
+        $result = $qh->updateModel(ApiTestBook::class, $firstRecord->ID, $request);
+        $updatedRecord = DataObject::get_by_id(ApiTestBook::class, $firstRecord->ID);
 
         $this->assertContainsOnlyInstancesOf(
             DataObject::class,
@@ -279,13 +284,13 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
      */
     public function testDeleteModel()
     {
-        $firstRecord = ApiTest_Book::get()->first();
+        $firstRecord = ApiTestBook::get()->first();
 
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('DELETE', 'ApiTest_Book');
-        $result = $qh->deleteModel('ApiTest_Book', $firstRecord->ID, $request);
+        $request = $this->getHTTPRequest('DELETE', ApiTestBook::class);
+        $result = $qh->deleteModel(ApiTestBook::class, $firstRecord->ID, $request);
 
-        $deletedRecord = DataObject::get_by_id(ApiTest_Book::class, $firstRecord->ID);
+        $deletedRecord = DataObject::get_by_id(ApiTestBook::class, $firstRecord->ID);
 
         $this->assertFalse(
             $deletedRecord,
@@ -295,9 +300,9 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
 
     public function testAfterDeserialize()
     {
-        $product = ApiTest_Product::get()->first();
+        $product = ApiTestProduct::get()->first();
         $qh = $this->getQueryHandler();
-        $request = $this->getHTTPRequest('PUT', 'ApiTest_Product', $product->ID);
+        $request = $this->getHTTPRequest('PUT', ApiTestProduct::class, $product->ID);
         $body = json_encode(array(
             'Title' => 'Making product available',
             'Soldout' => false,
@@ -313,7 +318,7 @@ class RESTfulAPIDefaultQueryHandler_Test extends RESTfulAPITester
         );
 
         $this->assertEquals(
-            ApiTest_Product::$rawJSON,
+            ApiTestProduct::$rawJSON,
             $body,
             "Raw JSON passed into 'onBeforeDeserialize' should match request payload"
         );

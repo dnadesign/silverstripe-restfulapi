@@ -1,14 +1,17 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Serializers\EmberData;
 
 use colymba\RESTfulAPI\Inflector;
 use colymba\RESTfulAPI\Serializers\EmberData\RESTfulAPIEmberDataSerializer;
-use colymba\RESTfulAPI\Tests\ApiTest_Author;
-use colymba\RESTfulAPI\Tests\ApiTest_Book;
-use colymba\RESTfulAPI\Tests\ApiTest_Library;
 use colymba\RESTfulAPI\Tests\RESTfulAPITester;
 use SilverStripe\Core\Injector\Injector;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestAuthor;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestBook;
+use colymba\RESTfulAPI\Tests\Fixtures\ApiTestLibrary;
+use SilverStripe\Core\Config\Config;
+
+
 
 /**
  * EmberData Serializer Test suite
@@ -21,12 +24,12 @@ use SilverStripe\Core\Injector\Injector;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class RESTfulAPIEmberDataSerializer_Test extends RESTfulAPITester
+class RESTfulAPIEmberDataSerializerTest extends RESTfulAPITester
 {
-    protected $extraDataObjects = array(
-        'ApiTest_Author',
-        'ApiTest_Book',
-        'ApiTest_Library',
+    protected static $extra_dataobjects = array(
+        ApiTestAuthor::class,
+        ApiTestBook::class,
+        ApiTestLibrary::class,
     );
 
     protected function getSerializer()
@@ -65,7 +68,7 @@ class RESTfulAPIEmberDataSerializer_Test extends RESTfulAPITester
         $serializer = $this->getSerializer();
 
         // test single dataObject serialization
-        $dataObject = ApiTest_Author::get()->filter(array('Name' => 'Peter'))->first();
+        $dataObject = ApiTestAuthor::get()->filter(array('Name' => 'Peter'))->first();
         $jsonString = $serializer->serialize($dataObject);
         $jsonObject = json_decode($jsonString);
 
@@ -82,18 +85,18 @@ class RESTfulAPIEmberDataSerializer_Test extends RESTfulAPITester
     public function testSideloadedRecords()
     {
         Config::inst()->update(RESTfulAPIEmberDataSerializer::class, 'sideloaded_records', array(
-            'ApiTest_Library' => array('Books'),
+            'ApiTestLibrary' => array('Books'),
         ));
 
-        Config::inst()->update(ApiTest_Book::class, 'api_access', true);
+        Config::inst()->update(ApiTestBook::class, 'api_access', true);
 
         $serializer = $this->getSerializer();
-        $dataObject = ApiTest_Library::get()->filter(array('Name' => 'Helsinki'))->first();
+        $dataObject = ApiTestLibrary::get()->filter(array('Name' => 'Helsinki'))->first();
 
         $jsonString = $serializer->serialize($dataObject);
         $jsonObject = json_decode($jsonString);
 
-        $booksRoot = $serializer->formatName('ApiTest_Book');
+        $booksRoot = $serializer->formatName(ApiTestBook::class);
         $booksRoot = Inflector::pluralize($booksRoot);
 
         $this->assertFalse(
@@ -115,7 +118,7 @@ class RESTfulAPIEmberDataSerializer_Test extends RESTfulAPITester
         $serializer = $this->getSerializer();
 
         $column = 'UpperCamelCase';
-        $class = 'ApiTest_Library';
+        $class = ApiTestLibrary::class;
 
         $this->assertEquals(
             'upperCamelCase',

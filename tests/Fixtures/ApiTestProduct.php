@@ -1,8 +1,10 @@
 <?php
 
-namespace colymba\RESTfulAPI\Tests;
+namespace colymba\RESTfulAPI\Tests\Fixtures;
 
 use SilverStripe\ORM\DataObject;
+
+
 
 /**
  * RESTfulAPI Test suite DataObjects
@@ -15,7 +17,7 @@ use SilverStripe\ORM\DataObject;
  * @package RESTfulAPI
  * @subpackage Tests
  */
-class ApiTest_Product extends DataObject
+class ApiTestProduct extends DataObject
 {
     public static $rawJSON;
 
